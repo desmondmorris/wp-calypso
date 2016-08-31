@@ -76,3 +76,16 @@ a.settings-action-panel__body-text-link {
 .settings-action-panel__support-button .gridicon {
 	margin-left: 8px;
 }
+
+.settings-action-panel__support-button {
+	&.is-external {
+		margin-right: 8px;
+
+		&:after {
+			@include noticon('\f442');
+			font-size: 18px;
+			padding-left: 2px;
+			vertical-align: middle;
+		}
+	}
+}
