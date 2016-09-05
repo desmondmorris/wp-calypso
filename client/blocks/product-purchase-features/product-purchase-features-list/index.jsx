@@ -33,6 +33,7 @@ import JetpackReturnToDashboard from './jetpack-return-to-dashboard';
 import JetpackSurveysPolls from './jetpack-surveys-polls';
 import JetpackWordPressCom from './jetpack-wordpress-com';
 import {
+	isPersonal as isWpcomPersonal,
 	isPremium as isWpcomPremium,
 	isBusiness as isWpcomBusiness
 } from 'lib/products-values';
@@ -147,7 +148,7 @@ export default class ProductPurchaseFeaturesList extends Component {
 			sitePlans,
 		} = this.props;
 
-		const plan = find( sitePlans.data, isWpcomPremium );
+		const plan = find( sitePlans.data, isWpcomPersonal );
 
 		return [
 			<CustomDomain
