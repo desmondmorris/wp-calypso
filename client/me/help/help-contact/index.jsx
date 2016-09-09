@@ -377,7 +377,7 @@ const HelpContact = React.createClass( {
 			return <HelpContactConfirmation { ...confirmation } />;
 		}
 
-		if ( olark.isOlarkClosed ) {
+		if ( olark.isSupportClosed ) {
 			return <HelpContactClosed />;
 		}
 

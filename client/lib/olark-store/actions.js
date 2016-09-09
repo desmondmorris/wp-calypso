@@ -45,9 +45,9 @@ const olarkActions = {
 		} );
 	},
 
-	setClosed( isOlarkClosed ) {
+	setClosed( isSupportClosed ) {
 		dispatcher.handleServerAction( {
-			isOlarkClosed,
+			isSupportClosed,
 			type: ActionTypes.OLARK_SET_CLOSED
 		} );
 	},

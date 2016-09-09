@@ -12,7 +12,7 @@ const initialState = {
 	isOlarkReady: false,
 	isUserEligible: false,
 	isOlarkExpanded: false,
-	isOlarkClosed: false,
+	isSupportClosed: false,
 	locale: 'en',
 	details: {}
 };
@@ -44,7 +44,7 @@ const olarkStore = createReducerStore( function( state, payload ) {
 			stateChanges = { details: action.details };
 			break;
 		case ActionTypes.OLARK_SET_CLOSED:
-			stateChanges = { isOlarkClosed: action.isOlarkClosed };
+			stateChanges = { isSupportClosed: action.isSupportClosed };
 			break;
 	}
 
