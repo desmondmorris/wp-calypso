@@ -10,6 +10,7 @@ import { localize } from 'i18n-calypso';
 /**
  * Internal dependencies
  */
+import Notice from 'components/notice';
 import EditCanvas from './image-editor-canvas';
 import EditToolbar from './image-editor-toolbar';
 import EditButtons from './image-editor-buttons';
@@ -48,6 +49,12 @@ const MediaModalImageEditor = React.createClass( {
 		};
 	},
 
+	getInitialState() {
+		return {
+			canvasError: null
+		};
+	},
+
 	componentDidMount() {
 		let src,
 			fileName = 'default',
@@ -73,6 +80,12 @@ const MediaModalImageEditor = React.createClass( {
 		const canvasComponent = this.refs.editCanvas.getWrappedInstance();
 		canvasComponent.toBlob( this.onImageExtracted );
 		this.props.onImageEditorClose();
+	},
+
+	componentWillUnmount() {
+		if ( this.timerId ) {
+			clearTimeout( this.timerId );
+		}
 	},
 
 	onImageExtracted( blob ) {
@@ -126,18 +139,41 @@ const MediaModalImageEditor = React.createClass( {
 		return ! transfer.types || -1 !== Array.prototype.indexOf.call( transfer.types, 'Files' );
 	},
 
+	onLoadCanvasError() {
+		this.setState( { canvasError: this.translate( 'We are unable to edit this image.' ) } );
+		this.timerId = setTimeout( this.props.onImageEditorCancel, 5000 );
+	},
+
+	renderError() {
+		return (
+			<Notice
+				status="is-error"
+				showDismiss={ true }
+				text={ this.state.canvasError }
+				isCompact={ false }
+				onDismissClick={ this.props.onImageEditorCancel } 	/>
+		);
+	},
+
 	render() {
 		return (
-			<div className="editor-media-modal-image-editor">
-				<figure>
-					<div className="editor-media-modal-image-editor__content editor-media-modal__content" >
-						<EditCanvas ref="editCanvas" />
-						<EditToolbar />
-						<EditButtons
-							onCancel={ this.props.onImageEditorCancel }
-							onDone={ this.onDone } />
-					</div>
-				</figure>
+			<div>
+				{ this.state.canvasError && this.renderError() }
+
+				<div className="editor-media-modal-image-editor">
+					<figure>
+						<div className="editor-media-modal-image-editor__content editor-media-modal__content" >
+							<EditCanvas
+								ref="editCanvas"
+								onLoadError={ this.onLoadCanvasError }
+								/>
+							<EditToolbar />
+							<EditButtons
+								onCancel={ this.props.onImageEditorCancel }
+								onDone={ this.onDone } />
+						</div>
+					</figure>
+				</div>
 			</div>
 		);
 	}
